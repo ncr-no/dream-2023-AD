@@ -1,0 +1,34 @@
+# Human-readable name of the service
+name: digital seconds ago
+# Name of the service for usage in paths, usernames etc.: Should only consist of lowercase alphanumeric
+# characters, must be identical to the (URL) project name of the GitLab repo
+slug: digital-seconds-ago
+authors:
+  - vaustli <vaustli@gmx.de>
+
+install:
+  debian_packages:
+    - build-essential
+    - libgmp-dev
+    - libsqlite3-dev
+  # These will be run on the Vulnbox after extracting "dist_root" (from the build) to the root file system,
+  # installing Debian packages and creating the service user
+  postinst_commands:
+    - adduser --system --uid=80 --group --disabled-login --home /srv/digital-seconds-ago --no-create-home --gecos "digital-seconds-ago service user,,," digital-seconds-ago
+    - chown -R digital-seconds-ago:digital-seconds-ago /srv/digital-seconds-ago
+    - chmod -R 750 /srv/digital-seconds-ago
+    - systemctl enable digital-seconds-ago.socket
+  # Whether to insert a firewall rule not allowing the service user to establish outgoing network connections
+  # This should generally be enabled, except for services which need outgoing connections
+  prevent_outgoing_connections: True
+
+checker:
+  script_path: checker/checker.py
+  # Upper bound of how long the Checker Script takes to run (for a single team)
+  # Used for scheduling checks within a tick, executions taking longer *may* get terminated
+  max_duration: 60
+  debian_packages:
+    - python3-requests
+  pip_packages:
+    - gmpy2
+    - pwntools

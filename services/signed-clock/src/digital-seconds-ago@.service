@@ -1,0 +1,17 @@
+[Unit]
+Description=FAUST CTF Digital Seconds Ago service
+
+[Service]
+ExecStart=-/bin/stdbuf -o0 /srv/digital-seconds-ago/digital-seconds-ago
+WorkingDirectory=/srv/digital-seconds-ago
+StandardInput=socket
+StandardOutput=socket
+User=digital-seconds-ago
+Restart=on-failure
+
+LimitNPROC=100
+LimitCPU=60
+PrivateTmp=true
+TemporaryFileSystem=/:ro
+BindPaths=/srv/digital-seconds-ago/
+BindReadOnlyPaths=/bin /lib /lib64 /usr /dev

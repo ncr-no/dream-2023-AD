@@ -1,0 +1,11 @@
+[Unit]
+Description=FAUST CTF Digital Seconds Ago service
+
+[Socket]
+ListenStream=13731
+Accept=true
+NoDelay=true
+MaxConnections=120
+
+[Install]
+WantedBy=faustctf.target

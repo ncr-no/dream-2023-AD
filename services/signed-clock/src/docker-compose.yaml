@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  signed-clock-service:
+    restart: unless-stopped
+    init: true
+    build: src
+    volumes:
+      - clocked:/clocked
+    ports:
+      - "10058:8082"
+    #env_file: .env
+
+volumes:
+  clocked:

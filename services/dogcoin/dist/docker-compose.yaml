@@ -1,0 +1,16 @@
+version: "2.2"
+# ipv6 is not supported in version 3
+
+services:
+  dogcoin-service:
+    restart: unless-stopped
+    init: true
+    build: src
+    volumes:
+      - coins:/coins
+    ports:
+      - "10056:8082"
+    #env_file: .env
+
+volumes:
+  coins:
